@@ -20,7 +20,7 @@ GPU: Nvidia GeForce RTX 2060
 `docker build -t <name> .`  
 6. Start an image of the container  
 `docker run -it --gpus all --runtime=nvidia -p 8888:8888 -p 6006:6006 -d -v $(pwd)/notebooks:/notebooks <name>`  
-7. Open a browser and access the Jupyter Notebooks through `localhost:8888/`  
+7. Open a browser and access the Jupyter Notebooks through localhost:8888/  
 8. Create, train, and save an ML model with Keras `main.ipynb`
 ### NCS2
 1. Install OpenVino Toolkit from https://docs.openvinotoolkit.org/latest/index.html and follow the instructions  
@@ -30,9 +30,12 @@ GPU: Nvidia GeForce RTX 2060
 5. Configure model optimizer https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_Config_Model_Optimizer.html  
 6. Go to the model_optimizer directory and convert the saved Keras model to Intermediate Representation (IR) using the following command  
 `mo_tf.py -saved_model <PATH_TO_SAVED_MODEL_DIR> -output_dir <PATH> --input <LAYER_NAME{DTYPE}(flatten_input{f32})> --input_shape <SHAPE([1, 784])>`  
-7. Load the converted model into OpenCV in `main.py` in the NCS2 Directory  
+7. Load the converted model into OpenCV in `main.py` in the NCS2 directory  
 `python3 main.py`
 ### Coral TPU
-1. 
+1. Convert and quantize the saved model to TF Lite format and in 8-bit representation using the `model_conversion.ipynb` in the `docker_env` directory  
+2. Utilize the TPU using the `libedgetpu` library in the coral directory  
+`python3 main.py`
 
 ## Run scripts 
+Run the `main.py` files in each directory to see the performance of the model using each device
